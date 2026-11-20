@@ -1,3 +1,4 @@
+
 # Cappuccino Loves Ballerina
 
 ## Integrantes del grupo
@@ -110,3 +111,5 @@ Prototipo jugable del nivel 0 en escritorio con:
 - HUD con cronómetro de partida.
 - Música de fondo por pantalla (menú y juego) con volumen configurable.
 - Arte real de objetos (puerta, palanca, pinchos, liana) y niveles diseñados en Tiled.
+
+
