@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputAdapter;
 
 public class ControladorEntradaJugador extends InputAdapter {
 
-    // --- Controles de Cappuccino (A/D/W/E/F) ---
     private boolean izquierda;
     private boolean derecha;
     private boolean saltoW;
@@ -15,7 +14,6 @@ public class ControladorEntradaJugador extends InputAdapter {
     private boolean interactuarPresionado;
     private boolean habilidadPresionada;
 
-    // --- Controles de Ballerina (Flechas / Shift Derecho) ---
     private boolean izquierdaBallerina;
     private boolean derechaBallerina;
     private boolean saltoPresionadoBallerina;
@@ -34,8 +32,6 @@ public class ControladorEntradaJugador extends InputAdapter {
         if (keycode == Input.Keys.D) {
             derecha = true;
         }
-
-        // Salto Cappuccino
         if (keycode == Input.Keys.W) {
             if (!saltoW && !saltoEspacio) saltoPresionado = true;
             saltoW = true;
@@ -124,7 +120,6 @@ public class ControladorEntradaJugador extends InputAdapter {
         interactuarPresionadoBallerina = false;
     }
 
-    /** El servidor aplica los controles recibidos solo al personaje asignado. */
     public void aplicarControlesRed(int rol, boolean izq, boolean der, boolean salto, boolean habilidad, boolean interactuar) {
         if (rol == 0) {
             izquierda = izq;

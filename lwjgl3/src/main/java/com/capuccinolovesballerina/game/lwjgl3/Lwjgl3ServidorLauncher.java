@@ -1,14 +1,24 @@
 package com.capuccinolovesballerina.game.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.capuccinolovesballerina.game.CapuccinoServidorGame;
 
-/** Punto de entrada exclusivo de CappuccinoServidor.exe. */
 public final class Lwjgl3ServidorLauncher {
+
     public static void main(String[] args) {
         if (StartupHelper.startNewJvmIfRequired()) return;
-        var configuracion = Lwjgl3Launcher.getDefaultConfiguration();
+
+        Lwjgl3ApplicationConfiguration configuracion =
+            new Lwjgl3ApplicationConfiguration();
+
         configuracion.setTitle("Cappuccino Loves Ballerina - Servidor");
-        new Lwjgl3Application(new CapuccinoServidorGame(), configuracion);
+        configuracion.useVsync(true);
+        configuracion.setWindowedMode(1366, 768);
+
+        new Lwjgl3Application(
+            new CapuccinoServidorGame(),
+            configuracion
+        );
     }
 }
