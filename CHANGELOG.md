@@ -1,209 +1,153 @@
-# Changelog
+# Changelog — Servidor
 
-Todos los cambios importantes del proyecto serán registrados en este archivo.
+Todos los cambios importantes del repositorio **SERVIDOR** de Cappuccino Loves Ballerina serán registrados en este archivo.
+
+Este historial conserva los cambios del videojuego que afectan a la simulación y al funcionamiento del servidor. Desde la separación de los repositorios, este archivo registra únicamente la aplicación SERVIDOR.
+
+## [2.0.0] - 2026-11-21
+
+### Modificado
+- Separación del proyecto en dos repositorios independientes: CLIENTE y SERVIDOR. Este repositorio corresponde exclusivamente al SERVIDOR.
+- Se consolidó la responsabilidad del servidor como autoridad de la partida: recibe las acciones de los jugadores, ejecuta la simulación y distribuye el estado resultante. No funciona como un tercer jugador ni renderiza una partida local.
+- Se simplificó `Servidor` separando los datos de cada conexión en la clase `game.red.Cliente`, que representa a cada jugador conectado y conserva su dirección, sesión, controles y datos de secuencia.
+- Se simplificó `ControladorEntradaJugador` para que el servidor aplique los controles recibidos por red, sin depender de un teclado local para manejar a los personajes.
+- Se ordenó `ProtocolosRed` manteniendo el mismo formato de mensajes que utiliza el repositorio CLIENTE. Ambos proyectos deben conservar esta compatibilidad para comunicarse.
+
+### Documentación
+- Se incorporó este changelog específico del repositorio SERVIDOR.
+- Se preparó un README propio que explica que este programa inicia y supervisa la partida online.
 
 ## [1.7.0] - 2026-11-16
 
 ### Agregado
-- Animaciones de Ballerina y spritesheet de espuma con formación, actividad y disolución; conserva duración, cooldown, transparencia y colisiones.
-- Animación de lianas con cuatro fotogramas en LOOP_PINGPONG, dibujando la liana completa y separando su tamaño visual de la hitbox.
 - Aplicación gráfica exclusiva del servidor: `CapuccinoServidorGame`, `PantallaMenuServidor`, `ServicioServidor` y `Lwjgl3ServidorLauncher`.
-- Pantalla de supervisión con jugadores conectados, estado de partida y botón DETENER SERVIDOR.
-- Distribuciones Windows independientes `CappuccinoServidor.exe` y `CappuccinoLovesBallerina.exe`, con Java incluido, sin consola, generadas mediante jpackage.
-- Pruebas reproducibles de reglas y UDP, cliente sin servidor, ciclo de vida y tres procesos gráficos.
+- Pantalla de supervisión con los jugadores conectados, el estado de la partida y el botón para detener el servidor.
+- Distribución independiente para Windows: `CappuccinoServidor.exe`, con Java incluido y sin consola, generada mediante `jpackage`.
+- Pruebas reproducibles de las reglas de la partida, comunicación UDP, ciclo de vida del servidor y ejecución de varios procesos gráficos.
 
 ### Modificado
-- Integración de la red UDP existente con la simulación autoritativa y las pantallas: sincronización de movimientos, habilidades, espuma, cortes, palancas, puerta, derrota, victoria y reinicios.
-- Descubrimiento por broadcast general, interfaces de red y loopback; registro separado del descubrimiento, asignación de personajes y confirmación de ambos clientes antes de la cuenta regresiva.
-- Controles con secuencia, sesión, ronda y contadores de acciones; estados completos y comprobación periódica de conexión.
-- Menú cliente con un único JUGAR y búsqueda asíncrona; servidor con menú propio JUGAR/SALIR. Los puntos de entrada determinan la aplicación, sin selector de rol.
-- Aviso de desconexión centrado con fondo oscurecido y retorno al menú.
-- Referencias e informes históricos conservados en `docs/desarrollo`, fuera de la distribución; README y documentación de entrega actualizados.
+- Integración de la comunicación UDP con la simulación autoritativa. El servidor recibe los controles y sincroniza movimientos, habilidades, espuma, cortes, palancas, puerta, derrota, victoria y reinicios.
+- Descubrimiento por broadcast general, direcciones de las interfaces de red y loopback. El descubrimiento no ocupa un cupo: el registro de cada jugador se realiza por separado.
+- Asignación automática de los dos personajes y confirmación de ambos jugadores antes de comenzar la cuenta regresiva.
+- Validación de controles mediante sesión, ronda, secuencia y contadores de acciones.
+- Simulación de la partida a 60 actualizaciones por segundo y envío periódico del estado a los clientes.
+- Menú propio para iniciar y salir del servidor. El punto de entrada determina que esta aplicación funciona como servidor.
 
 ### Corregido
-- Registro duplicado de un cliente por distintas interfaces y tolerancia a asignaciones que llegan antes del OK.
-- Descarte de paquetes inválidos, antiguos o duplicados; timeout, liberación de cupos y prevención de movimiento retenido por falta de controles.
-- Carga de mapas y tilesets del servidor desde el classpath al ejecutar fuera del proyecto.
-- Inicio del servicio fuera del hilo gráfico, cierre de sockets y recursos, y error entendible si el puerto está ocupado.
-- Cliente sin servidor: muestra «NO SE ENCONTRÓ UN SERVIDOR ACTIVO», permite reintentar y nunca crea un servidor.
-- Glifo Ó ausente en la fuente ASCII del menú, para mostrar completo el aviso de servidor no encontrado.
-- Encabezado del generador de informes y versión de Gradle alineada con esta entrega: `1.7.0`.
+- Registro duplicado de un mismo jugador cuando el cliente descubre el servidor a través de distintas interfaces de red.
+- Recepción de asignaciones aunque el mensaje de confirmación inicial `OK` se pierda o llegue después.
+- Rechazo de paquetes inválidos, antiguos o duplicados.
+- Detección de desconexiones por timeout y liberación de los lugares de los jugadores.
+- Prevención de movimientos que quedan activos cuando dejan de llegar controles.
+- Carga de mapas y tilesets del servidor desde el classpath al ejecutar la aplicación fuera del proyecto.
+- Inicio del servicio fuera del hilo gráfico, cierre de sockets y liberación de recursos.
+- Mensaje entendible cuando el puerto UDP ya está ocupado.
 
 ### Eliminado
-- `InicioLan` y la conversión automática de cliente a servidor.
-- Selección manual de IP, botones JUGAR LOCAL/JUGAR EN RED e IP visibles durante la partida.
-- Descubrimiento separado mediante `HiloDescubrimiento`, segmentos visuales de liana y recurso estático sin uso.
-- Lanzadores BAT de cliente/servidor de la entrega; la herramienta de consola queda opcional para desarrollo.
-
-## [1.6.1] - 2026-11-08
-
-
-## Agregado 
-- **Conexion UDP**
-    - Clase `HiloDescubrimiento`: Otorga direcciones ip automaticamente  
+- `InicioLan` y la conversión automática entre cliente y servidor.
+- La posibilidad de que la aplicación SERVIDOR se comporte como un jugador.
 
 ## [1.6.0] - 2026-11-07
 
 ### Agregado
-- **Infraestructura de Red UDP:**
-    - Clase `Servidor` y `HiloServidor`: Escucha puerto fijo, gestiona máx. 2 jugadores, asigna roles automáticos, mantiene estado autoritativo (palanca/puerta/cortes/muertes) y envía snapshots de bienvenida.
-    - Clase `Cliente` y `HiloCliente`: Conexión asíncrona, cola de recepción segura (`synchronized`), métodos helpers para enviar inputs específicos (`enviarPosicion`, `enviarCorte`, etc.).
-    - Soporte para configuración de IP del servidor mediante argumentos CLI en modo prueba.
+- Infraestructura de red UDP:
+  - `Servidor`: administra hasta dos jugadores, asigna los personajes y conserva el estado autoritativo de la partida.
+  - `HiloServidor`: escucha el puerto UDP, recibe los datagramas y los entrega al servidor para su procesamiento.
+  - Envío de estados de la partida a los jugadores conectados.
+- Asignación automática de roles para Cappuccino Assassino y Ballerina Capuccina.
 
 ### Corregido
-- Bug crítico en `HiloServidor.mandarSnapshot`: Los flags booleanos (`mirando`, `enSuelo`) ahora se serializan como `"true"/"false"` consistentes con el broadcast en vivo, previniendo errores de parsing (`Boolean.parseBoolean("1.0") == false`) en clientes reconectados.
+- Serialización de los datos booleanos de los personajes, como la dirección en la que miran y si están en el suelo, para que los estados recibidos puedan interpretarse correctamente.
 
-### Notas Técnicas
-- Validación realizada mediante smoke test de 3 instancias locales simulando conexión secuencial y saturación de cupos.
-- La integración final con `ControladorPartida` y `PantallaJuego` queda pendiente para la siguiente iteración.
+### Notas técnicas
+- Se realizaron pruebas locales de conexión secuencial y de límite de dos jugadores.
+- En esta etapa inicial, la integración completa entre la red y las reglas de la partida todavía estaba pendiente y se completó en iteraciones posteriores.
 
 ## [1.5.2] - 2026-10-30
 
 ### Agregado
-- **Integración completa de Ballerina Capuccina:**
-    - Nueva entidad `BallerinaCapuccina` heredando física básica de `Player`.
-    - Habilidad exclusiva: creación de `BloqueEspuma` temporal (plataforma sólida dinámica).
-    - Sistema de cooldown configurable para limitar el uso de la espuma.
-    - Spawn personalizado desde Tiled (`spawn_ballerina`).
-- **Soporte multijugador local (simulado):**
-    - Separación total de inputs en `ControladorEntradaJugador`: ahora gestiona simultáneamente teclados distintos para cada personaje (WASD+E+F vs Flechas+Enter+ShiftDer).
-    - Lógica de actualización independiente en `ControladorPartida` para ambos personajes.
-- **Mecánicas Cooperativas:**
-    - Condición de victoria revisada: requiere que AMBOS personajes colisionen con la zona de la puerta abierta simultáneamente.
-    - Condición de derrota cooperativa: muerte instantánea si CUALQUIER personaje cae al vacío o toca peligros.
-    - Interacción compartida con palancas: cualquiera de los dos puede activarla si está cerca y presiona su botón de interacción.
-- **Renderizado Placeholder:**
-    - Visualización de Ballerina como rectángulo rosa con marcador direccional mientras se esperan sprites definitivos.
-    - Dibujo dinámico de la espuma blanca con efecto de desvanecimiento (alpha fade-out).
+- Integración de Ballerina Capuccina como personaje de la partida.
+- Habilidad de creación de `BloqueEspuma`, una plataforma temporal que puede utilizarse durante el nivel.
+- Duración y tiempo de espera (*cooldown*) configurables para la habilidad.
+- Posición inicial de Ballerina configurable desde Tiled mediante `spawn_ballerina`.
+- Reglas cooperativas:
+  - La victoria requiere que ambos personajes lleguen a la puerta abierta.
+  - Si cualquiera de los personajes cae al vacío o toca una zona peligrosa, la partida termina en derrota.
+  - Ambos personajes pueden activar las palancas al encontrarse cerca.
 
-### Cambiado
-- Actualización de `Constantes.java` con parámetros específicos de la habilidad de Ballerina (dimensiones, duración, cooldown).
+### Modificado
+- `Constantes.java` incorpora los parámetros de tamaño, duración y cooldown de la espuma.
 
 ## [1.5.1] - 2026-10-29
 
 ### Refactorizado
-- Reemplacé la dependencia directa de `CapuccinoLovesBallerinaGame` por `Game` en las pantallas y los menús, reduciendo el acoplamiento con la clase principal.
+- Se reemplazó la dependencia directa de `CapuccinoLovesBallerinaGame` por la clase base `Game` en las pantallas y los menús, reduciendo el acoplamiento entre clases.
 
 ## [1.5] - 2026-10-27
 
 ### Agregado
-- Selector de resolución de ventana en `PantallaOpciones`, con opciones de 1280x720, 1024x768 y 800x600.
-- Alternancia entre modo ventana y pantalla completa desde `PantallaOpciones`.
-- Comunicación UDP inicial entre clientes y servidor mediante `Cliente`, `HiloCliente`, `Servidor` y `HiloServidor`.
-- Lectura de mensajes por consola para realizar pruebas de comunicación entre clientes y servidor.
+- Comunicación UDP inicial entre clientes y servidor mediante las clases `Servidor` y `HiloServidor`.
+- Lectura de mensajes por consola para realizar pruebas de comunicación entre los procesos.
 
 ### Cambiado
-- Resolución inicial de la ventana configurada en 1280x720 en `Lwjgl3Launcher`.
-- El selector de resolución queda deshabilitado mientras el juego está en pantalla completa.
-- Al volver al modo ventana, se recupera la última resolución seleccionada.
+- Se configuró la resolución inicial de la aplicación de escritorio en 1280x720.
 
 ## [1.4.6] - 2026-10-10
 
 ### Agregado
-- Se incorporaron controles de volumen y silencio en `PantallaOpciones`.
-
-### Cambiado
-- Se quitó la maximización automática de la ventana en `Lwjgl3Launcher`.
-- Se limpiaron comentarios en `Lwjgl3Launcher`.
+- Controles de volumen y silencio para el sistema de audio.
 
 ### Refactorizado
-- Se separaron responsabilidades de `PantallaJuego` en las clases `ControladorPartida`, `RenderizadorJuego` y `ElementosNivel` para mejorar la organización del código.
+- Se separaron responsabilidades de la partida en `ControladorPartida`, `RenderizadorJuego` y `ElementosNivel`, permitiendo reutilizar la lógica de la simulación sin depender del renderizado del cliente.
 
 ## [1.4.5] - 2026-09-22
 
 ### Corregido
-- Manejo de la tecla ESC mediante `ControladorEntradaJugador` para alternar el menú de pausa.
-- `soltarTodo()` ahora restablece todos los estados de entrada, incluyendo `saltoW` y `saltoEspacio`.
-- - Se corrigió la liberación de recursos compartidos desde `MenuPausa`.
-- `Recursos` ahora es liberado únicamente desde `CapuccinoLovesBallerinaGame`.
-- Se evitó liberar el `Skin` compartido al cerrar el menú de pausa.
+- Liberación de recursos compartidos desde los menús.
+- `Recursos` queda liberado desde la aplicación principal para evitar liberar texturas o `Skin` mientras todavía están en uso.
 
 ## [1.4.0] - 2026-09-04
-### Agregado
-- Sistema de audio (`Utilidades/Audio`): música de fondo loopeable por pantalla (`sonidos/musica_menu.mp3` en el menú principal y `sonidos/musica_juego.mp3` en la partida), con cambio automático al navegar entre pantallas y liberación del recurso al salir del juego .
-- Volumen general configurable en `Audio` (`setVolumen`, acotado entre 0 y 1) con valor bajo por defecto.
-### Cambiado
-- `PantallaOpciones` deja de ser una pantalla verde sin salida: ahora muestra un cartel PROXIMAMENTE (avisa que el control de volumen llegará en la próxima pre-entrega) con botón VOLVER al menú.
-
-## [1.3.0] - 2026-08-27
-### Agregado
-- HUD con cronómetro de la partida en formato MM:SS sobre marco decorativo (`pantallas/HUD`).
-
-### Cambiado
-- Imagen del menu principal
-- Imagen del menu Victoria + Cambio de nombre de su respectivo boton "Reintentar Nivel" a "Siguiente Nivel".
-
-## [1.2.0] - 2026-08-24 
-### Agregado    
-- Zonas de peligro: rectángulos `peligro` en la capa `objetos` que muestran GAME OVER al tocarlos, además de la muerte por caída al vacío.
-- Corte de Katana de Cappuccino Assassino: con F corta objetos `cuerda` y `barril` de la capa `objetos` (`ObjetoCortable` + `Nivel.buscarObjetos`); mientras no están cortados bloquean el paso como sólidos y al reintentar vuelven a su estado inicial.
-- Mecánica cooperativa de palanca y puerta : nuevo paquete `objetos` con `Palanca` y `Puerta`; la palanca se alterna con E estando cerca y abre/cierra la puerta; la puerta cerrada bloquea el paso como sólido adicional y no puede cerrarse con el jugador en el hueco.
-- Condición de victoria: con la puerta abierta, al presionar E sobre su hueco aparece `MenuVictoria` ("NIVEL COMPLETADO" con JUGAR DE NUEVO y VOLVER AL MENU).
-- Placeholders de salida , puerta  y palanca dibujados con ShapeRenderer.
-- Movimiento de Cappuccino Assassino: desplazamiento horizontal (A/D), salto (W o espacio), gravedad y colisiones contra los sólidos del mapa (`Player` + `ControladorEntradaJugador`).
-- Spawn del personaje leído desde la capa `objetos` de Tiled (`spawn_cappuccino`).
-- Muerte por caída al vacío con pantalla de GAME OVER (`interfaz/game_over.png`) y botones REINTENTAR y VOLVER AL MENU.
-- Nivel 0 diseñado en Tiled Map Editor: tileset de ladrillos, fondo de mazmorra, capa de objetos (spawns, palanca, puerta, salida) y colisiones por tile con bounding boxes.
-- Nuevo paquete `mapa` con las clases `Nivel` (modelo de datos del nivel) y `GestorColisiones` (sólidos construidos desde los tiles, lógica pura reutilizable por el futuro servidor).
-- `PantallaJuego` ahora carga y dibuja el mapa de Tiled (TmxMapLoader + OrthogonalTiledMapRenderer).
-- Spritesheet de Cappuccino Assassino (`assets/sprites/cappuccino.png`) con animaciones de idle, caminar, saltar y atacar, armado en grilla de celdas de 128x128 con fondo transparente.
-- Nuevo paquete `graficos` con la clase `animacionesCappuccino`: recorte del spritesheet con `TextureRegion.split` y animaciones con `Animation<TextureRegion>` en modo LOOP (idle/caminar) y NORMAL (saltar/atacar), con ataque que no se interrumpe hasta terminar.
-- Animaciones integradas en `PantallaJuego`: maquina de estados segun input y fisica (F → atacar, en el aire → saltar, moverse → caminar, quieto → idle), dibujo con `SpriteBatch` y espejado del sprite segun la direccion de movimiento.
-- Arte real de objetos interactivos: sprites independientes en `assets/objetos/` (puerta cerrada/abierta, palanca apagada/encendida, pinchos y liana) dibujados con tamaño fijo en el mundo, desacoplados de la resolución del PNG.
-- Pinchos dibujados con proporción natural 2:1 apoyados sobre la zona letal; liana dibujada apilada en segmentos de 192px para evitar estiramiento.
-- Clamp de delta en `render()` (máximo 1/30s) para evitar tunneling y movimiento errático en el primer frame tras la carga.
-### Cambiado
-- Rediseño de la puerta: cerrada ya no bloquea el paso y al abrirse se dibuja como marco en la misma posición en vez de desaparecer.
-- `reintentar()` ahora también devuelve la puerta y la palanca a su estado inicial, además de reposicionar al personaje.
-- `ANCHO_MUNDO` a 1408 para que el mundo calce exacto con el mapa (22 tiles x 64 px).
-- `PantallaJuego` queda como cliente flaco: delega el mapa en `mapa/Nivel`; el renderizador lo crea el cliente.
-### Corregido
-- Teclas quedaban "pegadas" al abrir un menú o reintentar: se agregó `soltarTodo()` a `ControladorEntradaJugador`, que resetea las teclas sostenidas cada vez que el control pasa a un menú.
-
-
-
-## [1.1.0] 2026-08-23
 
 ### Agregado
-- Menú de pausa como overlay (clase MenuPausa) con botones Reanudar, Volver al menú y Salir.
-- Alternancia de la pausa con la tecla ESC en la pantalla de juego.
-- Cámara fija con FitViewport en la pantalla de juego: el contenido se adapta a distintos tamaños de ventana sin deformarse.
-- Entorno de prueba con plataformas en la pantalla de juego.
-- Menú principal con viewport propio (FitViewport) y fondo como actor del Stage, que se adapta al redimensionar sin deformarse.
-- Paquete Utilidades con tres clases nuevas:
-    - Constantes: centraliza la resolución virtual y las rutas de assets.
-    - FabricaViewport: estandariza la creación de viewports en todas las pantallas.
-    - Recursos: gestor centralizado de skin y texturas con caché (HashMap) para evitar cargas duplicadas.
-- Clase BallerinaCapuccina (esqueleto del segundo personaje jugable).
+- Sistema de audio mediante `Utilidades/Audio`, con música de fondo y volumen configurable.
+
+## [1.2.0] - 2026-08-24
+
+### Agregado
+- Zonas de peligro identificadas mediante objetos `peligro` en el mapa.
+- Mecánica de corte de obstáculos con la katana de Cappuccino Assassino.
+- Mecánica cooperativa de palancas y puerta.
+- Condición de victoria al interactuar con la puerta abierta.
+- Movimiento de Cappuccino Assassino con desplazamiento horizontal, salto, gravedad y colisiones.
+- Posiciones iniciales de los personajes definidas mediante objetos del mapa de Tiled.
+- Derrota por caída al vacío o contacto con zonas peligrosas.
+- Nivel 0 diseñado en Tiled Map Editor, con capas de objetos y colisiones.
+- Paquete `mapa` con `Nivel` y `GestorColisiones`, cuyas reglas de colisión también se utilizan en la simulación del servidor.
 
 ### Cambiado
-- PantallaJuego ahora recibe la instancia del juego en el constructor para permitir la navegación entre pantallas.
-- PantallaJuego y MenuPausa usan FabricaViewport y Constantes en lugar de valores propios.
-- Resolución virtual y ventana de escritorio configuradas en 1366x768 (antes 1280x720).
-- projectVersion en gradle.properties actualizado a 1.1.0 para alinearlo con este registro.
+- El reinicio de la partida restablece también los elementos interactivos, como la puerta y las palancas.
+- Se centralizaron las dimensiones del mundo y otros parámetros en `Constantes`.
 
 ### Corregido
-- Menú principal: los botones no respondían al maximizar la ventana porque resize() no actualizaba el viewport del Stage.
+- Se restablecen los estados de entrada al cambiar de pantalla o reiniciar, evitando que queden acciones activas.
 
-
-## [1.0.1] 2026-08-04
-
-### Agregado
-- Actualización sobre el README en el apartado de Ejecución y Compilación.
-- Se cambio el nombre de la clase Principal a "CapuccinoLovesBallerinaGame".
-- Creacion del Menu principal
-- Fondo del menu Principal
-- Botones Salir, Opciones y Jugar
-- Funcionalidades de botones
-
-## [1.0.0] 2026-07-16
+## [1.1.0] - 2026-08-23
 
 ### Agregado
+- Clase `BallerinaCapuccina` como base del segundo personaje.
+- Paquete `Utilidades` con constantes, fábrica de viewports y gestor de recursos.
 
+### Cambiado
+- Se generalizó el uso de `Game` en las pantallas para facilitar la separación entre la aplicación de juego y la aplicación del servidor.
+
+## [1.0.1] - 2026-08-04
+
+### Agregado
+- Estructura inicial de pantallas y navegación del videojuego.
+
+## [1.0.0] - 2026-07-16
+
+### Agregado
 - Creación inicial del proyecto con LibGDX.
-- Configuración del módulo Core.
-- Configuración de la plataforma de escritorio LWJGL3
-- Incorporación del archivo .gitignore.
-- Creación del repositorio en GitHub.
-- Creación del README inicial.
-- Creación de la Wiki con la propuesta del proyecto.
+- Configuración del módulo Core y de la plataforma de escritorio LWJGL3.
+- Incorporación de Gradle, `.gitignore`, repositorio GitHub y Wiki del proyecto.
