@@ -2,7 +2,6 @@ package com.capuccinolovesballerina.game.red;
 
 import java.net.BindException;
 
-/** Ciclo de vida exclusivo de la aplicacion servidor. No crea clientes. */
 public final class ServicioServidor implements AutoCloseable {
     private volatile Servidor servidor;
     private volatile boolean cerrado, iniciado, terminado;
@@ -23,7 +22,6 @@ public final class ServicioServidor implements AutoCloseable {
                 if (cerrado) nuevo.close();
                 else iniciado = true;
             }
-            // Tambien libera el mapa si se cancelo mientras se construia el servidor.
             nuevo.ejecutar();
         } catch (BindException error) {
             mensaje = "Ya hay un servidor u otra aplicacion abierta. Cerra la otra instancia e intenta de nuevo.";
