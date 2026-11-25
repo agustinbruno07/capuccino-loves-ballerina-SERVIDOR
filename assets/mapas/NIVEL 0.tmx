@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="8">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="12">
  <tileset firstgid="1" source="PISO.tsx"/>
  <tileset firstgid="37" source="background1.tsx"/>
  <tileset firstgid="487" source="background2.tsx"/>
@@ -102,13 +102,17 @@
 </data>
  </layer>
  <objectgroup id="3" name="Capa de Objetos 1">
-  <object id="1" name="puerta" type="puerta" x="800" y="96" width="64" height="96"/>
-  <object id="2" name="peligro" x="480" y="416" width="64" height="32"/>
-  <object id="3" name="spawn_cappuccino" type=" spawnCapuccino" x="864" y="288" width="64" height="128"/>
-  <object id="4" name="palanca_ballerina" type="palanca" x="736" y="512" width="32" height="32"/>
-  <object id="5" name="liana" type="liana" x="320" y="0" width="30.7878" height="640.117" rotation="359.783"/>
-  <object id="6" name="palanca_cappuccino" type="palanca" x="64" y="96" width="32" height="32"/>
-  <object id="7" name="spawn_ballerina" type="spawnBallerina" x="32" y="288" width="64" height="128"/>
+  <object id="1" name="puerta" type="puerta" x="832" y="32" width="64" height="96"/>
+  <object id="2" name="peligro" x="800" y="512" width="64" height="32"/>
+  <object id="3" name="spawn_cappuccino" type=" spawnCapuccino" x="32" y="288" width="64" height="128"/>
+  <object id="4" name="palanca_ballerina" type="palanca" x="544" y="544" width="32" height="32"/>
+  <object id="5" name="liana" type="liana" x="256" y="0" width="29.5759" height="351.876" rotation="359.783"/>
+  <object id="6" name="palanca_cappuccino" type="palanca" x="32" y="128" width="32" height="32"/>
+  <object id="7" name="spawn_ballerina" type="spawnBallerina" x="864" y="288" width="64" height="128"/>
+  <object id="8" name="liana" type="liana" x="128" y="0" width="30.7878" height="159.999" rotation="359.783"/>
+  <object id="9" name="peligro" x="672" y="512" width="64" height="32"/>
+  <object id="10" name="liana" type="liana" x="480" y="480" width="30.7878" height="96.1205" rotation="359.783"/>
+  <object id="11" name="peligro" x="736" y="512" width="64" height="32"/>
  </objectgroup>
  <layer id="2" name="PISO" width="30" height="20">
   <data encoding="csv">
@@ -116,22 +120,22 @@
 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
-2,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
-2,0,0,8,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
-2,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,7,
+2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,7,
+1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+8,8,8,8,8,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,7,
+2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,7,
 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
-2,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,7,
 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,7,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+2,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
 1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,1,
-8,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,1,1,8,
-8,8,8,1,1,1,1,1,2,0,0,0,7,1,1,1,1,1,1,1,0,0,0,0,0,0,1,8,8,8,
-8,8,8,8,8,8,8,8,2,0,0,0,0,7,8,8,8,8,8,8,1,1,2,0,7,1,8,8,8,8,
-8,8,8,8,8,8,8,8,2,0,0,0,0,7,8,8,8,8,8,8,8,8,2,0,7,8,8,8,8,8,
-8,8,8,8,8,8,8,8,2,0,0,0,0,0,7,8,8,8,8,8,8,8,1,1,1,8,8,8,8,8,
-8,8,8,8,8,8,8,8,2,0,0,0,0,0,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
-8,8,8,8,8,8,8,8,2,0,0,0,0,0,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
+8,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,8,
+8,8,8,2,0,0,0,0,0,0,0,0,7,1,1,1,1,1,1,1,0,0,0,0,0,0,0,8,8,8,
+8,8,8,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,1,2,0,0,0,0,0,8,8,8,
+8,8,8,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,8,8,2,0,0,0,0,0,8,8,8,
+8,8,8,8,8,2,0,0,0,0,0,0,0,0,0,0,0,0,0,8,8,1,1,1,1,1,1,8,8,8,
+8,8,8,8,8,2,0,0,0,0,0,1,0,0,7,1,1,1,1,8,8,8,8,8,8,8,8,8,8,8,
+8,8,8,8,8,2,0,0,0,0,0,8,1,0,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
 </data>
  </layer>
 </map>

@@ -19,7 +19,7 @@ apply plugin: 'io.github.fourlastor.construo'
 import io.github.fourlastor.construo.Target
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
-application.mainClass = 'com.capuccinolovesballerina.game.lwjgl3.Lwjgl3Launcher'
+application.mainClass = 'com.capuccinolovesballerina.game.lwjgl3.Lwjgl3ServidorLauncher'
 application.applicationName = appName
 
 // Consola UDP sin ventana ni dependencias adicionales de red.
@@ -79,7 +79,7 @@ run {
 
 jar {
 // sets the name of the .jar file this produces to the name of the game or app, with the version after.
-  archiveFileName.set("${appName}-${projectVersion}.jar")
+  archiveFileName.set("CappuccinoServidor-${projectVersion}.jar")
 // the duplicatesStrategy matters starting in Gradle 7.0; this setting works.
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   dependsOn configurations.runtimeClasspath
